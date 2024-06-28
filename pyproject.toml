@@ -26,6 +26,7 @@ lint.extend-ignore = [
     "DTZ007",
     "E401",    # multiple imports on one line
     "N817",    # D for decimal
+    "N999",    # page names for streamlit require title case
     "PLR0912", # Don't compplain about too many branches
     "PLR0913", # don't complain about too many arguments
     "PLR2004", # Don't force every magic value to be a constant
