@@ -5,3 +5,4 @@ langchain_openai
 langgraph
 loguru
 streamlit
+streamlit-audiorecorder

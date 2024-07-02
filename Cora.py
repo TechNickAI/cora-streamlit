@@ -1,8 +1,12 @@
 from agent_graph import create_agent_graph, prompt_engineer
+from audiorecorder import audiorecorder
 from langchain.schema.runnable.config import RunnableConfig
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from loguru import logger
+from openai import OpenAI
+from pathlib import Path
 import streamlit as st
+import tempfile
 import uuid
 
 # ---------------------------------------------------------------------------- #
@@ -50,6 +54,7 @@ def write_message(chat_message):
     if isinstance(chat_message, HumanMessage):
         with st.chat_message("Human"):
             st.write(chat_message.content)
+
     elif isinstance(chat_message, AIMessage):
         with st.chat_message("AI"):
             if isinstance(chat_message.content, str):
@@ -67,12 +72,23 @@ def write_message(chat_message):
                     elif chunk["type"] == "tool_use":
                         st.info(f"Tool Utilized: {chunk['name']}")
                         st.json(chunk, expanded=False)
+
     elif isinstance(chat_message, ToolMessage):
         with st.chat_message("AI"):
             st.info("Tool Response")
             st.json(chat_message.content, expanded=False)
 
     return None
+
+
+def transcribe_audio(audio_buffer):
+    audio_file_name = tempfile.NamedTemporaryFile(suffix=".wav", delete=False).name
+    audio_buffer.export(audio_file_name, format="wav")
+    audio_file = Path.open(audio_file_name, "rb")
+
+    client = OpenAI()
+    transcription = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
+    return transcription.text
 
 
 # Show the conversation from chat history
@@ -84,7 +100,14 @@ for message in st.session_state.chat_history:
 # ---------------------------------------------------------------------------- #
 
 user_request = st.chat_input("How may I assist you today?")
-if user_request is not None and user_request != "":
+
+audio_buffer = audiorecorder("", "")
+if len(audio_buffer) > 0:
+    with st.spinner("Transcribing..."):
+        user_request = transcribe_audio(audio_buffer)
+        audio_buffer = None
+
+if user_request:
     logger.debug(f"User input: {user_request}")
 
     # Handle user input
