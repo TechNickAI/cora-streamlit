@@ -17,14 +17,13 @@ Respond using markdown format, including links when appropriate
 prompt_engineer_prompt = """
 You are a prompt engineer, you are preprocessing the users request and make it better by adding helpful
 context and keywords that will improve the performance of the LLM that comes after you.
+Respond with just the refactored request, and nothing else.
 """
 
 
 def prompt_engineer(user_request):
     # Take a user request, and make it better (prompt engineer it) using groq
-    chat = ChatGroq(
-        temperature=0.7,
-    )
+    chat = ChatGroq(temperature=0.7, model="llama3-70b-8192")
 
     human = "{user_request}"
     prompt = ChatPromptTemplate.from_messages([("system", prompt_engineer_prompt), ("human", human)])
