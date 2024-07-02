@@ -122,6 +122,8 @@ langsmith==0.1.82
     #   langchain
     #   langchain-community
     #   langchain-core
+loguru==0.7.2
+    # via -r requirements/requirements.in
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.5
