@@ -1,4 +1,4 @@
-from agent_graph import create_agent_graph
+from agent_graph import create_agent_graph, prompt_engineer
 from langchain.schema.runnable.config import RunnableConfig
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from loguru import logger
@@ -13,6 +13,9 @@ st.sidebar.title("Settings")
 selected_llm = st.sidebar.selectbox("Large Language Model", ("Anthropic Claude 3.5", "OpenAI GPT 4o"))
 enable_web_search = st.sidebar.checkbox(
     "Enable Web Search", help="Permit the AI to search the web for information.", value=True
+)
+enable_preprompting = st.sidebar.checkbox(
+    "Enable Pre-prompting", help="Do prompt engineering before sending it to the AI.", value=False
 )
 
 # Collect settings
@@ -64,13 +67,21 @@ for message in st.session_state.chat_history:
 user_input = st.chat_input("How may I assist you today?")
 if user_input is not None and user_input != "":
     logger.debug(f"User input: {user_input}")
+
+    # Handle user input
+    st.session_state.chat_history.append(HumanMessage(content=user_input))
+    with st.chat_message("Human"):
+        st.write(user_input)
+
+    if enable_preprompting:
+        with st.spinner("Applying prompt engineering to your request..."):
+            engineered_input = prompt_engineer(user_input)
+            st.info(engineered_input.content)
+            user_input = engineered_input.content
+
     # Set up graph with config and thread id
     agent_graph = create_agent_graph(user_settings)
     runnable_config = RunnableConfig(configurable={"thread_id": st.session_state.thread_id})
-
-    with st.chat_message("Human"):
-        st.write(user_input)
-        st.session_state.chat_history.append(HumanMessage(content=user_input))
 
     for stream_event in agent_graph.stream({"messages": st.session_state.chat_history}, config=runnable_config):
         # The top level response will either be agent or tool_call

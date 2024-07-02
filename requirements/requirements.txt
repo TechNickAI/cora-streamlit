@@ -19,6 +19,7 @@ anthropic==0.30.0
 anyio==4.4.0
     # via
     #   anthropic
+    #   groq
     #   httpx
     #   openai
 attrs==23.2.0
@@ -46,6 +47,7 @@ defusedxml==0.7.1
 distro==1.9.0
     # via
     #   anthropic
+    #   groq
     #   openai
 filelock==3.15.4
     # via huggingface-hub
@@ -59,6 +61,8 @@ gitdb==4.0.11
     # via gitpython
 gitpython==3.1.43
     # via streamlit
+groq==0.9.0
+    # via langchain-groq
 h11==0.14.0
     # via httpcore
 httpcore==1.0.5
@@ -66,6 +70,7 @@ httpcore==1.0.5
 httpx==0.27.0
     # via
     #   anthropic
+    #   groq
     #   openai
 huggingface-hub==0.23.4
     # via tokenizers
@@ -100,9 +105,12 @@ langchain-core==0.2.10
     #   langchain
     #   langchain-anthropic
     #   langchain-community
+    #   langchain-groq
     #   langchain-openai
     #   langchain-text-splitters
     #   langgraph
+langchain-groq==0.1.6
+    # via -r requirements/requirements.in
 langchain-openai==0.1.11
     # via -r requirements/requirements.in
 langchain-text-splitters==0.2.2
@@ -161,6 +169,7 @@ pyarrow==16.1.0
 pydantic==2.7.4
     # via
     #   anthropic
+    #   groq
     #   langchain
     #   langchain-core
     #   langsmith
@@ -209,6 +218,7 @@ sniffio==1.3.1
     # via
     #   anthropic
     #   anyio
+    #   groq
     #   httpx
     #   openai
 sqlalchemy==2.0.31
@@ -240,6 +250,7 @@ tqdm==4.66.4
 typing-extensions==4.12.2
     # via
     #   anthropic
+    #   groq
     #   huggingface-hub
     #   openai
     #   pydantic
