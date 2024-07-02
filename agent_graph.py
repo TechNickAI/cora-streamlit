@@ -13,12 +13,11 @@ Respond using markdown format, including links when appropriate
 """
 
 
-def create_tools():
+def create_tools(settings):
     tools = []
 
-    # Add a tool to search the web
-    tsr = TavilySearchResults()
-    tools.append(tsr)
+    if settings["search_web"]:
+        tools.append(TavilySearchResults())
 
     return tools
 
@@ -32,10 +31,10 @@ def get_chat_model(llm, temperature=0.7, streaming=True):
         raise ValueError(f"Unknown LLM: {llm}")
 
 
-def create_agent_graph(llm, temperature=0.7, streaming=True):
-    llm = get_chat_model(llm, temperature=temperature, streaming=streaming)
+def create_agent_graph(settings):
+    llm = get_chat_model(settings["llm"], temperature=0.7, streaming=True)
     # Set up a memory saver
     memory = MemorySaver()
-    tools = create_tools()
+    tools = create_tools(settings)
 
     return create_react_agent(model=llm, tools=tools, checkpointer=memory, messages_modifier=our_prompt)

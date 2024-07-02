@@ -7,12 +7,13 @@ import uuid
 # Set page config
 st.set_page_config(page_title="Cora: Heart Centered AI", page_icon="💙", layout="wide")
 
-# Sidebar for LLM provider selection
+# Sidebar for settings
 st.sidebar.title("Settings")
 llm = st.sidebar.selectbox("Select LLM Provider", ("Anthropic Claude 3.5", "OpenAI GPT 4o"))
+search_web = st.sidebar.checkbox("Search the web", help="Allow the AI to search the web for information.", value=True)
 
-# Title
-st.title("Cora: Heart Centered AI 🤖 + 💙")
+# Collect preferences
+settings = {"llm": llm, "search_web": search_web}
 
 # session state
 if "chat_history" not in st.session_state:
@@ -29,20 +30,16 @@ for message in st.session_state.chat_history:
         with st.chat_message("Human"):
             st.write(message.content)
 
-
-# user input
-user_query = st.chat_input("Type your message here...")
+user_query = st.chat_input("How can I help you?")
 if user_query is not None and user_query != "":
     # Set up graph with config and thread id
-    graph = create_agent_graph(llm)
-    callbacks = []
-    config = RunnableConfig(callbacks=callbacks, configurable={"thread_id": st.session_state.thread_id})
+    graph = create_agent_graph(settings)  # Pass preferences here
+    config = RunnableConfig(configurable={"thread_id": st.session_state.thread_id})
 
     with st.chat_message("Human"):
         st.write(user_query)
         st.session_state.chat_history.append(HumanMessage(content=user_query))
 
-    response_text = ""
     for event in graph.stream({"messages": st.session_state.chat_history}, config=config):
         # The top level response will either be agent or tool_call
         if "agent" in event:
