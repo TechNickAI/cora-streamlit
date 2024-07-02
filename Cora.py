@@ -5,24 +5,14 @@ from loguru import logger
 import streamlit as st
 import uuid
 
-# Set page config
+# ---------------------------------------------------------------------------- #
+#                             Streamlit page set up                            #
+# ---------------------------------------------------------------------------- #
+
 st.set_page_config(page_title="Cora: Heart-Centered AI", page_icon="💙", layout="wide")
 
-# Sidebar for settings
-st.sidebar.title("Settings")
-selected_llm = st.sidebar.selectbox("Large Language Model", ("Anthropic Claude 3.5", "OpenAI GPT 4o"))
-enable_web_search = st.sidebar.checkbox(
-    "Enable Web Search", help="Permit the AI to search the web for information.", value=True
-)
-enable_preprompting = st.sidebar.checkbox(
-    "Enable Pre-prompting", help="Do prompt engineering before sending it to the AI.", value=False
-)
+# ------------------------------ Session set up ------------------------------ #
 
-# Collect settings
-user_settings = {"llm": selected_llm, "search_web": enable_web_search}
-logger.debug(f"User settings: {user_settings}")
-
-# Session state
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
     logger.debug("Initialized chat history in session state")
@@ -30,8 +20,33 @@ if "thread_id" not in st.session_state:
     st.session_state.thread_id = str(uuid.uuid4())
     logger.debug(f"Generated new thread ID: {st.session_state.thread_id}")
 
+# --------------------------- Sidebar for settings --------------------------- #
+st.sidebar.title("Settings")
+selected_llm = st.sidebar.selectbox("Large Language Model", ("Anthropic Claude 3.5", "OpenAI GPT 4o"))
+enable_web_search = st.sidebar.checkbox(
+    "Enable Web Search", help="Permit the AI to search the web for information.", value=True
+)
+enable_preprompting = st.sidebar.checkbox(
+    "Enable Pre-prompting", help="Do prompt engineering before sending it to the AI.", value=True
+)
+user_settings = {"llm": selected_llm, "search_web": enable_web_search}
+logger.debug(f"User settings: {user_settings}")
+
+
+# ----------------------------- Helper functions ----------------------------- #
+
 
 def write_message(chat_message):
+    """
+    Writes a chat message to the Streamlit chat interface based on its type.
+
+    Distinguish between AIMessage and ToolMessage and HumanMessage.
+
+    Handle the difference between
+    Anthropic Claude 3.5 (which responds with a list)
+    vs
+    OpenAI GPT 4o (which responds with a string).
+    """
     if isinstance(chat_message, HumanMessage):
         with st.chat_message("Human"):
             st.write(chat_message.content)
@@ -64,20 +79,24 @@ def write_message(chat_message):
 for message in st.session_state.chat_history:
     write_message(message)
 
-user_input = st.chat_input("How may I assist you today?")
-if user_input is not None and user_input != "":
-    logger.debug(f"User input: {user_input}")
+# ---------------------------------------------------------------------------- #
+#                              Handle the request                              #
+# ---------------------------------------------------------------------------- #
+
+user_request = st.chat_input("How may I assist you today?")
+if user_request is not None and user_request != "":
+    logger.debug(f"User input: {user_request}")
 
     # Handle user input
-    st.session_state.chat_history.append(HumanMessage(content=user_input))
+    st.session_state.chat_history.append(HumanMessage(content=user_request))
     with st.chat_message("Human"):
-        st.write(user_input)
+        st.write(user_request)
 
     if enable_preprompting:
         with st.spinner("Applying prompt engineering to your request..."):
-            engineered_input = prompt_engineer(user_input)
+            engineered_input = prompt_engineer(user_request)
             st.info(engineered_input.content)
-            user_input = engineered_input.content
+            user_request = engineered_input.content
 
     # Set up graph with config and thread id
     agent_graph = create_agent_graph(user_settings)
