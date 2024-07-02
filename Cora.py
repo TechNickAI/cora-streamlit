@@ -1,6 +1,7 @@
 from agent_graph import create_agent_graph
 from langchain.schema.runnable.config import RunnableConfig
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
+from loguru import logger
 import streamlit as st
 import uuid
 
@@ -16,12 +17,15 @@ enable_web_search = st.sidebar.checkbox(
 
 # Collect settings
 user_settings = {"llm": selected_llm, "search_web": enable_web_search}
+logger.debug(f"User settings: {user_settings}")
 
 # Session state
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
+    logger.debug("Initialized chat history in session state")
 if "thread_id" not in st.session_state:
     st.session_state.thread_id = str(uuid.uuid4())
+    logger.debug(f"Generated new thread ID: {st.session_state.thread_id}")
 
 
 def write_message(chat_message):
@@ -36,12 +40,12 @@ def write_message(chat_message):
                     st.json(chat_message.tool_calls[0], expanded=False)
                 else:
                     st.write(chat_message.content)
-                    st.session_state.chat_history.append(AIMessage(content=chat_message.content))
+                    return chat_message
             elif isinstance(chat_message.content, list):
                 for chunk in chat_message.content:
                     if chunk["type"] == "text":
                         st.write(chunk["text"])
-                        st.session_state.chat_history.append(AIMessage(content=chunk["text"]))
+                        return AIMessage(content=chunk["text"])
                     elif chunk["type"] == "tool_use":
                         st.info(f"Tool Utilized: {chunk['name']}")
                         st.json(chunk, expanded=False)
@@ -50,6 +54,8 @@ def write_message(chat_message):
             st.info("Tool Response")
             st.json(chat_message.content, expanded=False)
 
+    return None
+
 
 # Show the conversation from chat history
 for message in st.session_state.chat_history:
@@ -57,6 +63,7 @@ for message in st.session_state.chat_history:
 
 user_input = st.chat_input("How may I assist you today?")
 if user_input is not None and user_input != "":
+    logger.debug(f"User input: {user_input}")
     # Set up graph with config and thread id
     agent_graph = create_agent_graph(user_settings)
     runnable_config = RunnableConfig(configurable={"thread_id": st.session_state.thread_id})
@@ -73,4 +80,6 @@ if user_input is not None and user_input != "":
             response_messages = stream_event["tools"]["messages"]
 
         for chat_message in response_messages:
-            write_message(chat_message)
+            saved_message = write_message(chat_message)
+            if saved_message is not None:
+                st.session_state.chat_history.append(saved_message)
