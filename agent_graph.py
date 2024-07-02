@@ -23,7 +23,7 @@ Respond with just the refactored request, and nothing else.
 
 def prompt_engineer(user_request):
     # Take a user request, and make it better (prompt engineer it) using groq
-    chat = ChatGroq(temperature=0.7, model="llama3-70b-8192")
+    chat = ChatGroq(temperature=0.8, streaming=False)
 
     human = "{user_request}"
     prompt = ChatPromptTemplate.from_messages([("system", prompt_engineer_prompt), ("human", human)])
@@ -46,6 +46,8 @@ def get_chat_model(llm, temperature=0.7, streaming=True):
         return ChatOpenAI(model="gpt-4o", temperature=temperature, streaming=streaming)
     elif llm == "Anthropic Claude 3.5":
         return ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=temperature, streaming=streaming)
+    elif llm == "Grok":
+        return ChatGroq(model="llama3-70b-8192", temperature=temperature, streaming=streaming)
     else:
         raise ValueError(f"Unknown LLM: {llm}")
 
