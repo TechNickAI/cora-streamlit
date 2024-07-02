@@ -13,7 +13,10 @@ import uuid
 #                             Streamlit page set up                            #
 # ---------------------------------------------------------------------------- #
 
-st.set_page_config(page_title="Cora: Heart-Centered AI", page_icon="💙", layout="wide")
+ai_logo = "assets/logo.png"
+st.set_page_config(page_title="Cora: Heart-Centered AI", page_icon=ai_logo, layout="wide")
+st.logo(ai_logo, icon_image=ai_logo)
+
 
 # ------------------------------ Session set up ------------------------------ #
 
@@ -56,7 +59,7 @@ def write_message(chat_message):
             st.write(chat_message.content)
 
     elif isinstance(chat_message, AIMessage):
-        with st.chat_message("AI"):
+        with st.chat_message("AI", avatar=ai_logo):
             if isinstance(chat_message.content, str):
                 if chat_message.content == "" and chat_message.tool_calls:
                     st.info(f"Tool Invoked: {chat_message.tool_calls[0]['name']}")
