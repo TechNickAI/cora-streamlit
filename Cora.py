@@ -5,12 +5,14 @@ import streamlit as st
 import uuid
 
 # Set page config
-st.set_page_config(page_title="Cora: Heart Centered AI", page_icon="💙", layout="wide")
+st.set_page_config(page_title="Cora: Heart-Centered AI", page_icon="💙", layout="wide")
 
 # Sidebar for settings
 st.sidebar.title("Settings")
-llm = st.sidebar.selectbox("Select LLM Provider", ("Anthropic Claude 3.5", "OpenAI GPT 4o"))
-search_web = st.sidebar.checkbox("Search the web", help="Allow the AI to search the web for information.", value=True)
+llm = st.sidebar.selectbox("Large Language Model", ("Anthropic Claude 3.5", "OpenAI GPT 4o"))
+search_web = st.sidebar.checkbox(
+    "Enable Web Search", help="Permit the AI to search the web for information.", value=True
+)
 
 # Collect settings
 settings = {"llm": llm, "search_web": search_web}
@@ -30,7 +32,7 @@ def write_message(message):
         with st.chat_message("AI"):
             if isinstance(message.content, str):
                 if message.content == "" and message.tool_calls:
-                    st.info(f"Tool called: {message.tool_calls[0]['name']}")
+                    st.info(f"Tool Invoked: {message.tool_calls[0]['name']}")
                     st.json(message.tool_calls[0], expanded=False)
                 else:
                     st.write(message.content)
@@ -41,11 +43,11 @@ def write_message(message):
                         st.write(chunk["text"])
                         st.session_state.chat_history.append(AIMessage(content=chunk["text"]))
                     elif chunk["type"] == "tool_use":
-                        st.info(f"Tool used: {chunk['name']}")
+                        st.info(f"Tool Utilized: {chunk['name']}")
                         st.json(chunk, expanded=False)
     elif isinstance(message, ToolMessage):
         with st.chat_message("AI"):
-            st.info("Tool response")
+            st.info("Tool Response")
             st.json(message.content, expanded=False)
 
 
@@ -53,7 +55,7 @@ def write_message(message):
 for message in st.session_state.chat_history:
     write_message(message)
 
-user_query = st.chat_input("How can I help you?")
+user_query = st.chat_input("How may I assist you today?")
 if user_query is not None and user_query != "":
     # Set up graph with config and thread id
     graph = create_agent_graph(settings)
