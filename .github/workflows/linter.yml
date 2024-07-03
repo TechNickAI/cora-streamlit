@@ -45,5 +45,5 @@ jobs:
 
           # These are more annoying than helpful
           VALIDATE_HTML: false
-          VALIDATE_HADOLINT: false
+          VALIDATE_DOCKER_HADOLINT: false
           VALIDATE_CHECKOV: false
