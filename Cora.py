@@ -111,16 +111,17 @@ if len(audio_buffer) > 0:
         audio_buffer = None
 
 if user_request:
-    logger.debug(f"User input: {user_request}")
+    logger.debug(f"User request: {user_request}")
 
-    # Handle user input
+    # Handle user request
     st.session_state.chat_history.append(HumanMessage(content=user_request))
     with st.chat_message("Human"):
         st.write(user_request)
 
     if enable_preprompting:
-        with st.spinner("Applying prompt engineering to your request..."):
+        with st.spinner("Enhancing your request..."):
             engineered_input = prompt_engineer(user_request)
+            st.markdown("*Your enhanced request:*")
             st.info(engineered_input.content)
             user_request = engineered_input.content
 
