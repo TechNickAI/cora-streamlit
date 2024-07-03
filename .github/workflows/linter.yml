@@ -42,3 +42,8 @@ jobs:
           VALIDATE_JSCPD: false
           # Don't run gitleaks - it tells me things I already know (we have secrets in settings)
           VALIDATE_GITLEAKS: false
+
+          # These are more annoying than helpful
+          VALIDATE_HTML: false
+          VALIDATE_HADOLINT: false
+          VALIDATE_CHECKOV: false

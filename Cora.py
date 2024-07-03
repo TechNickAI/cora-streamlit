@@ -136,8 +136,14 @@ if user_request:
             response_messages = stream_event["agent"]["messages"]
         elif "tools" in stream_event:
             response_messages = stream_event["tools"]["messages"]
-
         for chat_message in response_messages:
             saved_message = write_message(chat_message)
             if saved_message is not None:
+                # Ensure roles alternate correctly
+                if st.session_state.chat_history:
+                    last_message = st.session_state.chat_history[-1]
+                    if isinstance(last_message, AIMessage) and isinstance(saved_message, AIMessage):
+                        continue
+                    if isinstance(last_message, ToolMessage) and isinstance(saved_message, ToolMessage):
+                        continue
                 st.session_state.chat_history.append(saved_message)
