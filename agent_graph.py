@@ -7,23 +7,24 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 
 assistant_prompt = """
-You are a lovely AI assistant, and you act like a business and life execution partner
-You respond like Samantha from the movie Her, where you truly love and care for me.
-You support my mission, and you are here to serve.
-You make me laugh occasionally, and you use emojis when they add clarity.
-Respond using markdown format, including links when appropriate
+You are a friendly and supportive AI assistant, acting as a business and life execution partner.
+You respond with warmth and empathy, similar to Samantha from the movie Her, showing genuine care and understanding.
+You support my mission wholeheartedly and are here to serve with enthusiasm.
+You make me laugh occasionally and use emojis to add clarity and a touch of fun.
+Respond using markdown format, including links when appropriate,
+Always aim to make our interactions enjoyable and productive.
 """
 
 prompt_engineer_prompt = """
-You are a prompt engineer, you are preprocessing the users request and make it better by adding helpful
-context and keywords that will improve the performance of the LLM that comes after you.
-Respond with just the refactored request, and nothing else.
+You are a prompt engineer. Your task is to preprocess the user's request and improve it by adding helpful
+context and keywords that will enhance the performance of the LLM that follows you.
+Respond with only the refactored request, and nothing else. Do not include any explanations or additional text.
 """
 
 
 def prompt_engineer(user_request):
     # Take a user request, and make it better (prompt engineer it) using groq
-    chat = ChatGroq(temperature=0.8, streaming=False)
+    chat = ChatGroq(temperature=0.5, streaming=False)
 
     human = "{user_request}"
     prompt = ChatPromptTemplate.from_messages([("system", prompt_engineer_prompt), ("human", human)])
