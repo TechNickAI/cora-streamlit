@@ -98,7 +98,7 @@ jsonschema-specifications==2023.12.1
     # via jsonschema
 langchain==0.2.6
     # via langchain-community
-langchain-anthropic==0.1.16
+langchain-anthropic==0.1.19
     # via -r requirements/requirements.in
 langchain-community==0.2.6
     # via -r requirements/requirements.in
