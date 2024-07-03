@@ -1,7 +1,7 @@
 # Cora: Heart Centered AI Assistant 🤖 + 💙
 
-![Build Status](https://github.com/TechNickAIo/cora/actions/workflows/build.yml/badge.svg)
-![Lint Status](https://github.com/TechNickAIo/cora/actions/workflows/linter.yml/badge.svg)
+![Build Status](https://github.com/TechNickAI/cora/actions/workflows/build.yml/badge.svg)
+![Lint Status](https://github.com/TechNickAI/cora/actions/workflows/linter.yml/badge.svg)
 
 ## Overview
 
