@@ -231,7 +231,7 @@ enableStaticServing = true
 # - Open the browser
 
 # Default: "localhost"
-serverAddress = "cora.heartcentered.ai"
+# serverAddress = "cora.heartcentered.ai"
 
 # Whether to send usage statistics to Streamlit.
 
