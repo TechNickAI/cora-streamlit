@@ -1,5 +1,8 @@
 # Cora: Heart Centered AI Assistant 🤖 + 💙
 
+![Build Status](https://github.com/TechNickAIo/cora/actions/workflows/build.yml/badge.svg)
+![Lint Status](https://github.com/TechNickAIo/cora/actions/workflows/linter.yml/badge.svg)
+
 ## Overview
 
 Cora is a heart-centered AI assistant designed to revolutionize the way we interact with technology and enhance human potential. Named after the Latin word for "heart," Cora embodies our commitment to creating AI that is not just intelligent, but also empathetic, ethical, and aligned with human values.
