@@ -16,11 +16,16 @@ COPY requirements/requirements.txt requirements/requirements.txt
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements/requirements.txt
 
+# Copy the custom index.html to the Streamlit static directory
+COPY assets/index.html /usr/local/lib/python3.12/site-packages/streamlit/static/index.html
+
 # Copy the rest of the application code into the container
 COPY . .
+
 
 # Expose the port that Streamlit will run on
 EXPOSE 8501
 
 # Command to run the Streamlit app
 CMD ["streamlit", "run", "Cora.py"]
+
