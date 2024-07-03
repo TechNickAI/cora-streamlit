@@ -4,8 +4,11 @@ FROM python:3.12-slim
 # Set the working directory
 WORKDIR /app
 
-# Install ffmpeg for audio input
-RUN apt-get update && apt-get install -y ffmpeg
+# Install ffmpeg for audio input and clean up
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ffmpeg && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file into the container
 COPY requirements/requirements.txt requirements/requirements.txt
