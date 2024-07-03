@@ -13,8 +13,8 @@ import uuid
 #                             Streamlit page set up                            #
 # ---------------------------------------------------------------------------- #
 
-ai_logo = "assets/logo.png"
-# Keep this in sync with assets/index.html
+ai_logo = "static/logo.png"
+# Keep this in sync with static/index.html
 st.set_page_config(page_title="Cora: Heart-Centered AI", page_icon=ai_logo, layout="wide")
 st.logo(ai_logo, icon_image=ai_logo)
 

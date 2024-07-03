@@ -17,7 +17,7 @@ COPY requirements/requirements.txt requirements/requirements.txt
 RUN pip install --no-cache-dir -r requirements/requirements.txt
 
 # Copy the custom index.html to the Streamlit static directory
-COPY assets/index.html /usr/local/lib/python3.12/site-packages/streamlit/static/index.html
+COPY static/index.html /usr/local/lib/python3.12/site-packages/streamlit/static/index.html
 
 # Copy the rest of the application code into the container
 COPY . .
