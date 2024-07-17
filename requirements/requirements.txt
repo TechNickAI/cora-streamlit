@@ -102,7 +102,7 @@ langchain-anthropic==0.1.19
     # via -r requirements/requirements.in
 langchain-community==0.2.6
     # via -r requirements/requirements.in
-langchain-core==0.2.10
+langchain-core==0.2.20
     # via
     #   langchain
     #   langchain-anthropic
@@ -113,7 +113,7 @@ langchain-core==0.2.10
     #   langgraph
 langchain-groq==0.1.6
     # via -r requirements/requirements.in
-langchain-openai==0.1.14
+langchain-openai==0.1.16
     # via -r requirements/requirements.in
 langchain-text-splitters==0.2.2
     # via langchain
