@@ -96,13 +96,13 @@ jsonschema==4.22.0
     # via altair
 jsonschema-specifications==2023.12.1
     # via jsonschema
-langchain==0.2.6
+langchain==0.2.13
     # via langchain-community
 langchain-anthropic==0.1.19
     # via -r requirements/requirements.in
-langchain-community==0.2.6
+langchain-community==0.2.12
     # via -r requirements/requirements.in
-langchain-core==0.2.10
+langchain-core==0.2.30
     # via
     #   langchain
     #   langchain-anthropic
@@ -262,6 +262,7 @@ typing-extensions==4.12.2
     #   anthropic
     #   groq
     #   huggingface-hub
+    #   langchain-core
     #   openai
     #   pydantic
     #   pydantic-core
