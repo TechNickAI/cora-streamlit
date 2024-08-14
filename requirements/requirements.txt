@@ -87,7 +87,9 @@ jinja2==3.1.4
     #   altair
     #   pydeck
 jiter==0.5.0
-    # via anthropic
+    # via
+    #   anthropic
+    #   openai
 jsonpatch==1.33
     # via langchain-core
 jsonpointer==3.0.0
@@ -102,7 +104,7 @@ langchain-anthropic==0.1.19
     # via -r requirements/requirements.in
 langchain-community==0.2.6
     # via -r requirements/requirements.in
-langchain-core==0.2.10
+langchain-core==0.2.30
     # via
     #   langchain
     #   langchain-anthropic
@@ -113,7 +115,7 @@ langchain-core==0.2.10
     #   langgraph
 langchain-groq==0.1.6
     # via -r requirements/requirements.in
-langchain-openai==0.1.14
+langchain-openai==0.1.21
     # via -r requirements/requirements.in
 langchain-text-splitters==0.2.2
     # via langchain
@@ -149,7 +151,7 @@ numpy==1.26.4
     #   pyarrow
     #   pydeck
     #   streamlit
-openai==1.35.7
+openai==1.40.6
     # via langchain-openai
 orjson==3.10.5
     # via langsmith
@@ -262,6 +264,7 @@ typing-extensions==4.12.2
     #   anthropic
     #   groq
     #   huggingface-hub
+    #   langchain-core
     #   openai
     #   pydantic
     #   pydantic-core
