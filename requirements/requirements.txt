@@ -231,7 +231,7 @@ sqlalchemy==2.0.31
     # via
     #   langchain
     #   langchain-community
-streamlit==1.36.0
+streamlit==1.38.0
     # via
     #   -r requirements/requirements.in
     #   streamlit-audiorecorder
