@@ -102,7 +102,7 @@ langchain-anthropic==0.1.19
     # via -r requirements/requirements.in
 langchain-community==0.2.6
     # via -r requirements/requirements.in
-langchain-core==0.2.10
+langchain-core==0.2.38
     # via
     #   langchain
     #   langchain-anthropic
@@ -111,14 +111,17 @@ langchain-core==0.2.10
     #   langchain-openai
     #   langchain-text-splitters
     #   langgraph
+    #   langgraph-checkpoint
 langchain-groq==0.1.6
     # via -r requirements/requirements.in
 langchain-openai==0.1.14
     # via -r requirements/requirements.in
 langchain-text-splitters==0.2.2
     # via langchain
-langgraph==0.1.5
+langgraph==0.2.16
     # via -r requirements/requirements.in
+langgraph-checkpoint==1.0.8
+    # via langgraph
 langsmith==0.1.82
     # via
     #   langchain
@@ -262,6 +265,7 @@ typing-extensions==4.12.2
     #   anthropic
     #   groq
     #   huggingface-hub
+    #   langchain-core
     #   openai
     #   pydantic
     #   pydantic-core
